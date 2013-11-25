@@ -40,6 +40,7 @@
 
 #include <sound/apr_audio-v2.h>
 #include <sound/q6asm-v2.h>
+#include <sound/q6audio-v2.h>
 
 #include "audio_acdb.h"
 
@@ -376,7 +377,7 @@ static void q6asm_session_free(struct audio_client *ac)
 	session[ac->session] = 0;
 	mutex_unlock(&session_lock);
 	ac->session = 0;
-	ac->perf_mode = 0;
+	ac->perf_mode = LEGACY_PCM_MODE;
 	ac->fptr_cache_ops = NULL;
 	return;
 }
@@ -677,7 +678,7 @@ struct audio_client *q6asm_audio_client_alloc(app_cb cb, void *priv)
 	ac->cb = cb;
 	ac->priv = priv;
 	ac->io_mode = SYNC_IO_MODE;
-	ac->perf_mode = false;
+	ac->perf_mode = LEGACY_PCM_MODE;
 	ac->fptr_cache_ops = NULL;
 	ac->apr = apr_register("ADSP", "ASM", \
 				(apr_fn)q6asm_callback,\
@@ -1564,7 +1565,7 @@ int q6asm_open_read(struct audio_client *ac,
 	open.bits_per_sample = bits_per_sample;
 	open.mode_flags = 0x0;
 
-	if (ac->perf_mode) {
+	if (ac->perf_mode == LOW_LATENCY_PCM_MODE) {
 		open.mode_flags |= ASM_LOW_LATENCY_STREAM_SESSION <<
 				ASM_SHIFT_STREAM_PERF_MODE_FLAG_IN_OPEN_READ;
 	} else {
@@ -1638,8 +1639,10 @@ static int __q6asm_open_write(struct audio_client *ac, uint32_t format,
 
 	open.hdr.opcode = ASM_STREAM_CMD_OPEN_WRITE_V3;
 	open.mode_flags = 0x00;
-	if (ac->perf_mode)
+	if (ac->perf_mode == ULTRA_LOW_LATENCY_PCM_MODE)
 		open.mode_flags |= ASM_ULTRA_LOW_LATENCY_STREAM_SESSION;
+	else if (ac->perf_mode == LOW_LATENCY_PCM_MODE)
+		open.mode_flags |= ASM_LOW_LATENCY_STREAM_SESSION;
 	else {
 		open.mode_flags |= ASM_LEGACY_STREAM_SESSION;
 		if (is_gapless_mode)
