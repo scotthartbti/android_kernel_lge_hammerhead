@@ -1054,4 +1054,8 @@ config WAKE_TIMEOUT
 	help
 	 Disable screen wake functions after timeout
 
+config PWRKEY_SUSPEND
+	tristate "Suspend touch wake if power button pressed"
+	default y
+
 endif
