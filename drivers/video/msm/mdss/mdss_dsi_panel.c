@@ -34,14 +34,12 @@
 #endif
 #endif
 
-<<<<<<< HEAD
-=======
 #include <asm/system_info.h>
 
 #ifdef CONFIG_PWRKEY_SUSPEND
 #include <linux/qpnp/power-on.h>
 #endif
->>>>>>> 7417b8a... s2w/dt2w: Add power key toggle
+
 #include "mdss_dsi.h"
 
 #include <asm/system_info.h>
@@ -348,10 +346,6 @@ static int mdss_dsi_panel_on(struct mdss_panel_data *pdata)
 
 	if (local_pdata->on_cmds.cmd_cnt)
 		mdss_dsi_panel_cmds_send(ctrl, &local_pdata->on_cmds);
-
-#ifdef CONFIG_PWRKEY_SUSPEND
-	pwrkey_pressed = false;	
-#endif
 		
 	pr_info("%s\n", __func__);
 	return 0;
