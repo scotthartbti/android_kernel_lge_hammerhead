@@ -404,7 +404,7 @@ static void wcd9xxx_clsh_state_hph_l(struct snd_soc_codec *codec,
 		wcd9xxx_chargepump_request(codec, true);
 		wcd9xxx_enable_anc_delay(codec, true);
 		wcd9xxx_clsh_comp_req(codec, clsh_d, CLSH_COMPUTE_HPH_L, true);
-		wcd9xxx_set_buck_mode(codec, BUCK_VREF_0P494V);
+		wcd9xxx_set_buck_mode(codec, BUCK_VREF_2V);
 		wcd9xxx_enable_buck(codec, clsh_d, true);
 		wcd9xxx_set_fclk_get_ncp(codec, clsh_d, NCP_FCLK_LEVEL_8);
 
@@ -432,7 +432,7 @@ static void wcd9xxx_clsh_state_hph_r(struct snd_soc_codec *codec,
 		wcd9xxx_chargepump_request(codec, true);
 		wcd9xxx_enable_anc_delay(codec, true);
 		wcd9xxx_clsh_comp_req(codec, clsh_d, CLSH_COMPUTE_HPH_R, true);
-		wcd9xxx_set_buck_mode(codec, BUCK_VREF_0P494V);
+		wcd9xxx_set_buck_mode(codec, BUCK_VREF_2V);
 		wcd9xxx_enable_buck(codec, clsh_d, true);
 		wcd9xxx_set_fclk_get_ncp(codec, clsh_d, NCP_FCLK_LEVEL_8);
 
