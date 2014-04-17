@@ -21,7 +21,6 @@
 #define CLSH_COMPUTE_HPH_L 0x02
 #define CLSH_COMPUTE_HPH_R 0x03
 
-#define BUCK_VREF_0P494V 0x3F
 #define BUCK_VREF_2V 0xFF
 #define BUCK_VREF_1P8V 0xE6
 
@@ -482,7 +481,10 @@ static void wcd9xxx_cfg_clsh_buck(
 {
 	int i;
 	const struct wcd9xxx_reg_mask_val reg_set[] = {
+		{WCD9XXX_A_BUCK_CTRL_CCL_4, 0x0B, 0x00},
 		{WCD9XXX_A_BUCK_CTRL_CCL_1, 0xF0, 0x50},
+		{WCD9XXX_A_BUCK_CTRL_CCL_3, 0x03, 0x00},
+		{WCD9XXX_A_BUCK_CTRL_CCL_3, 0x0B, 0x00},
 	};
 
 	for (i = 0; i < ARRAY_SIZE(reg_set); i++)
